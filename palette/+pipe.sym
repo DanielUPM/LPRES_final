@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE sym SYSTEM "DTDFILE_FULLPATH">
+<palette version="1.2.0" sx="480" sy="320" aliasingInShapes="true" aliasingInUnitSymbols="true" >
+
+	<grid enabled="true" snap="true" hspacing="4" vspacing="4" colorMain="210,210,210" colorSecondary="243,243,243" numberCells="4" />
+
+	<componentType id="Pipe" >
+
+		<g id="Group_1" dx="-48" dy="-128" >
+		
+					<rect id="Rectangle_2" cx="332" cy="100" sx="120" sy="24" dx="-92" dy="172" color="170,255,255" aliasing="true"  />
+		
+					<line id="Line_1" points="180,272 300,272" dy="-8" aliasing="true"  />
+		
+					<line id="Line_2" points="180,272 300,272" dy="8" aliasing="true"  />
+		
+					<line id="Line_3" points="160,272 180,272" aliasing="true"  />
+		
+					<line id="Line_4" points="340,272 320,272" dx="-20" aliasing="true"  />
+		
+					<line id="Line_5" points="280,272 200,272"  start_arrow="true" aliasing="true"  />
+		
+		</g>
+
+		<port id="f_in" library="LPRES" type="Fluid"  hotPort="f_in" >
+		
+				<symbol dx="112" dy="144" onLabel="true" />
+		
+				<label cx="14" cy="12" dx="76" dy="132" />
+		
+		</port>
+
+		<port id="f_out" library="LPRES" type="Fluid"  hotPort="f_out" >
+		
+				<symbol dx="272" dy="144" onLabel="true" />
+		
+				<label cx="18" cy="12" dx="280" dy="132" />
+		
+		</port>
+
+		<editor used="false">
+		</editor>
+
+	</componentType>
+</palette>
