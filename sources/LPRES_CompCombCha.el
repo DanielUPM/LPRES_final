@@ -148,8 +148,6 @@ COMPONENT CombCha (ENUM OnOffDesign Type = Design, ENUM YesNo Cooled = No)
 		HIDDEN REAL fluid_F[ChemName]		UNITS no_units		"Fuel fluid"
 		HIDDEN REAL fluid_P[ChemName]		UNITS no_units		"Combustion products fluid"
 		REAL cp_R								UNITS u_J_kgK		"Reactant specific heat at constant pressure"
-		--REAL cv_R								UNITS u_J_kgK		"Reactant specific heat at constant volume"
-		--REAL R_univ_R						UNITS u_J_kgK		"Gases universal constant"
 		
 		BOOLEAN Combustion											"TRUE if there is combustion and FALSE if either oxidant or fuel is lacking"	
 		REAL Q_comb_effective				UNITS u_J_kg		"Effective heat of combustion per oxidant mass flow unit"
@@ -171,8 +169,6 @@ COMPONENT CombCha (ENUM OnOffDesign Type = Design, ENUM YesNo Cooled = No)
 		DISCR REAL k_1									UNITS no_units		"Inverso del gasto característico"
 		DISCR REAL k_2									UNITS no_units		"Inverso de la entalpía característica"
 		REAL rho_trans							UNITS u_kg_m3		"Density calculated in transient model"
-		--REAL T_trans							UNITS u_K			"Temperature calculated in transient model"
-		--REAL p_trans							UNITS u_Pa			"Pressure calculated in transient model"
 		
 	INIT PRIORITY 100
 		ASSERT (AR_r >= 1) KILLPOINT "AR_r CAN NOT BE LOWER THAN 1!"
@@ -214,10 +210,7 @@ COMPONENT CombCha (ENUM OnOffDesign Type = Design, ENUM YesNo Cooled = No)
 		
 		g.pt = f_O.p_c
 		g.pt = f_F.p_c
-      --g.pt = p_trans    -- "g.pt" is now transient
-      --T_c = T_trans     -- "T_c" is now transient
-		--T_trans = g.Tt     -- "g.T" is now transient
-				
+      		
 		IF (Type == Design) INSERT
 			g.pt = p_c
 		END IF
@@ -238,8 +231,7 @@ COMPONENT CombCha (ENUM OnOffDesign Type = Design, ENUM YesNo Cooled = No)
 									OTHERS					0
 				
 		eta * Q_comb_effective = ((1. + OF) / min(OF,OF_st)) * (cp(fluid_P) * (T_c - T_ref) - cp_R * (T_in - T_ref))
-		
-		--(temp_ch/(rho_ch*k_2*T_ch)) * rho_trans*cv_R*T_trans' = ((1. + OF) / min(OF,OF_st)) * (cp(fluid_P) * (T_c - T_ref) - cp_R * (T_in - T_ref)) - eta * Q_comb_effective
+	
 		
 		g.pt=rho_trans*R(fluid_P)*g.Tt
 				
@@ -248,7 +240,6 @@ COMPONENT CombCha (ENUM OnOffDesign Type = Design, ENUM YesNo Cooled = No)
 		--((W_O + W_F) / g.W) * cp(fluid_P) * (g.Tt - T_c) + (W_IO / g.W) * f_O.fluid[Comb_prod_cp] * (g.Tt - f_O.T) + (W_IF / g.W) * f_F.fluid[Comb_prod_cp] * (g.Tt - f_F.T) = 0
 		
 		((W_O + W_F)/ g.W) * cp(fluid_P) * (g.Tt - T_c) + (W_IO / g.W) * f_O.fluid[Comb_prod_cp] * (g.Tt - f_O.T) + (W_IF / g.W) * f_F.fluid[Comb_prod_cp] * (g.Tt - f_F.T) = -(temp_ch/(g.W*rho_ch*k_2*T_ch)) * (rho_trans*cv(fluid_P)*g.Tt'+g.Tt*cv(fluid_P)*rho_trans')
-		--((W_O + W_F) / g.W) * cp(fluid_P) * (g.Tt - T_c) + (W_IO / g.W) * f_O.fluid[Comb_prod_cp] * (g.Tt - f_O.T) + (W_IF / g.W) * f_F.fluid[Comb_prod_cp] * (g.Tt - f_F.T) = ((temp_ch)/(mfr_ch*rho_ch*k_2*T_ch)) * rho_trans*cv(fluid_P)*g.Tt'
 		
 		EXPAND (i IN LiquidsGases) fluid_O[i] = f_O.fluid[i] / (1 - f_O.fluid[Comb_prod])
 		fluid_O[Comb_prod] = 0
@@ -261,8 +252,6 @@ COMPONENT CombCha (ENUM OnOffDesign Type = Design, ENUM YesNo Cooled = No)
 		fluid_F[Comb_prod_cp] = 0			
 				
 		cp_R = (W_O * cp(fluid_O) + W_F * cp(fluid_F)) / (W_O + W_F)
-		--R_univ_R = ((W_O * R_u/M_oxid) + (W_F * R_u/M_fuel)) / (W_O + W_F)
-		--cv_R = cp_R - R_univ_R
 		
 		EXPAND (i IN LiquidsGases) fluid_P[i] = 	IF (Combustion)	(fluid_O[i] * max(1 - phi,0) * W_O + fluid_F[i] * max(phi - 1,0) * W_F_st) / (W_O + W_F)
 																ELSE					(fluid_O[i] * W_O + fluid_F[i] * W_F) / (W_O + W_F)

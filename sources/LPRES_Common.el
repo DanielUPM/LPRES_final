@@ -43,12 +43,10 @@ ENUM ConDiv = {Convergent, Divergent}
 ENUM YesNo = {Yes, No}
 ENUM Type_Inlet = {All, Unknown_W}
 ENUM Type_All = {Design, Known_pi, Known_W, Off_design, Known_pt_out, Known_dp, Known_dpr, Darcy}
---ENUM Type_All = {Design, Known_pi, Known_W, Off_design, Known_pt_out, Known_dp, Known_dpr, Darcy, Gas_valve}
 SET_OF(Type_All) OnOffDesign = {Design, Off_design}
 SET_OF(Type_All) Type_Turbines = {Known_pi, Known_W, Off_design}
 SET_OF(Type_All) Type_Turbine_liq = {Known_dp, Known_W, Off_design}
 SET_OF(Type_All) Type_Regulator = {Design, Known_pt_out, Known_dp, Known_dpr}
---SET_OF(Type_All) Type_Regulator = {Design, Known_pt_out, Known_dp, Known_dpr, Gas_valve}
 SET_OF(Type_All) Type_Cooling = {Darcy, Known_dp}
 ENUM AngCoef = {Angles, Coefficients}
 

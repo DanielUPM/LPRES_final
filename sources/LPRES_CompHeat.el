@@ -57,8 +57,6 @@ COMPONENT CoolingJacket (ENUM Type_Cooling Type = Darcy)
 		DISCR REAL k_1					UNITS no_units			"Inverso del gasto característico"
 		DISCR REAL k_2					UNITS no_units			"Inverso de la entalpía característica"
 		REAL rho_trans					UNITS u_kg_m3			"Gas density calculated in transient model"
-		--REAL T_trans					UNITS u_K				"Temperature calculated in transient model"	
-		--REAL p_trans					UNITS u_kg_m3			"Pressure calculated in transient model"
 		
 	INIT PRIORITY 90
 		Init_fluid(Vaporisation(l.fluid), g.fluid)
